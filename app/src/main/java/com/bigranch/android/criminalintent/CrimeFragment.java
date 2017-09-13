@@ -2,14 +2,12 @@ package com.bigranch.android.criminalintent;
 
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -104,7 +102,7 @@ public class CrimeFragment extends Fragment {
         updateDateTime(); //calls mDateTimeButton.setText
         mDateTimeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
                 DateTimeButtonsFragment dialog = DateTimeButtonsFragment.newInstance(mCrime.getDate());
                 dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 dialog.show(fm, DIALOG_DATE);
@@ -169,7 +167,7 @@ public class CrimeFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_item_delete_crime:
                 //Confirm with yes/no dialog
-                FragmentManager fm = getActivity().getFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
                 OkCancelFragment dialog = OkCancelFragment.newInstance("Are you sure you want to delete this crime?", "Delete", "Cancel");
                 dialog.setTargetFragment(CrimeFragment.this, REQUEST_CONFIRM);
                 dialog.show(fm, DIALOG_CONFIRM);

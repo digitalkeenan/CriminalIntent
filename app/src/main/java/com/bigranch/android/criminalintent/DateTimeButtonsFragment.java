@@ -3,11 +3,11 @@ package com.bigranch.android.criminalintent;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.Button;
 
@@ -62,7 +62,7 @@ public class DateTimeButtonsFragment extends DialogFragment {
         updateDate(); //calls mDateButton.setText
         mDateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment.newInstance(mDate);
                 dialog.setTargetFragment(DateTimeButtonsFragment.this, REQUEST_DATE);
                 dialog.show(fm, DIALOG_DATE);
@@ -73,7 +73,7 @@ public class DateTimeButtonsFragment extends DialogFragment {
         updateTime(); //calls mTimeButton.setText
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(mDate);
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);

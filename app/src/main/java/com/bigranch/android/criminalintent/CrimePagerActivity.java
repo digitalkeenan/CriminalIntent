@@ -1,8 +1,8 @@
 package com.bigranch.android.criminalintent;
 
-import android.app.FragmentManager;
-import android.app.Fragment;
-import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +22,7 @@ public class CrimePagerActivity extends AppCompatActivity {
         setContentView(mViewPager);
 
         mCrimes = CrimeLab.get(this).getCrimes();
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public int getCount() {
