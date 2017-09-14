@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by obrien on 2/7/2016.
@@ -29,7 +30,7 @@ import java.util.ArrayList;
 public class CrimeListFragment extends ListFragment{
     private static final String TAG = "CrimeListFragment"; //ToDo: remove this unused?
 
-    private ArrayList<Crime> mCrimes;
+    private List<Crime> mCrimes;
     private boolean mSubtitleVisible;
     private Button mEmptyListButton;
 
@@ -183,7 +184,7 @@ public class CrimeListFragment extends ListFragment{
     }
 
     private class CrimeAdapter extends ArrayAdapter<Crime> {
-        public CrimeAdapter(ArrayList<Crime> crimes) {
+        public CrimeAdapter(List<Crime> crimes) {
             super(getActivity(), 0, crimes);
         }
 

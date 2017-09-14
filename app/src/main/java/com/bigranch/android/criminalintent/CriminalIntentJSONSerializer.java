@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by obrien on 2/28/2016.
@@ -28,7 +29,7 @@ public class CriminalIntentJSONSerializer {
         mFilename = f;
     }
 
-    public ArrayList<Crime> loadCrimes() throws IOException, JSONException {
+    public List<Crime> loadCrimes() throws IOException, JSONException {
         ArrayList<Crime> crimes = new ArrayList<Crime>();
         BufferedReader reader = null;
         try {
@@ -56,7 +57,7 @@ public class CriminalIntentJSONSerializer {
         return crimes;
     }
 
-    public void saveCrimes(ArrayList<Crime> crimes) throws JSONException, IOException {
+    public void saveCrimes(List<Crime> crimes) throws JSONException, IOException {
         // Build an array in JSON
         JSONArray array = new JSONArray();
         for (Crime c : crimes)

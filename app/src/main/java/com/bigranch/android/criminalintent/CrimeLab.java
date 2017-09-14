@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -13,7 +14,7 @@ public class CrimeLab {
     private static final String TAG = "CrimeLab";
     private static final String FILENAME = "crimes.json";
 
-    private ArrayList<Crime> mCrimes;
+    private List<Crime> mCrimes;
     private CriminalIntentJSONSerializer mSerializer;
     private static CrimeLab sCrimeLab;
     private Context mAppContext;
@@ -31,7 +32,7 @@ public class CrimeLab {
 
     public static CrimeLab get(Context c) {
         if (sCrimeLab == null) {
-            sCrimeLab = new CrimeLab(c.getApplicationContext());
+            sCrimeLab = new CrimeLab(c);//.getApplicationContext());
         }
         return sCrimeLab;
     }
@@ -56,7 +57,7 @@ public class CrimeLab {
         }
     }
 
-    public ArrayList<Crime> getCrimes() {
+    public List<Crime> getCrimes() {
         return mCrimes;
     }
     public Crime getCrime(UUID id) {

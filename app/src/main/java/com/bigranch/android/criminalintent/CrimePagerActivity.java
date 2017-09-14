@@ -8,11 +8,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CrimePagerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
-    private ArrayList<Crime> mCrimes;
+    private List<Crime> mCrimes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
