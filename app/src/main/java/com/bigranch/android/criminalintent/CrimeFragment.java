@@ -28,8 +28,8 @@ import java.util.Date;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
-    public static final String EXTRA_CRIME_ID = "com.bignerdranch.android.criminalintent.crime_id";
-    private static final String DIALOG_DATE = "date";
+    private static final String ARG_CRIME_ID = "crime_id";
+    private static final String DIALOG_DATE = "DialogDate";
     private static final String DIALOG_CONFIRM = "confirm";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONFIRM = 1;
@@ -52,7 +52,7 @@ public class CrimeFragment extends Fragment {
     public static CrimeFragment newInstance(UUID crimeId) {
         CrimeFragment fragment = new CrimeFragment();
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_CRIME_ID, crimeId);
+        args.putSerializable(ARG_CRIME_ID, crimeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +66,7 @@ public class CrimeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            UUID crimeId = (UUID)getArguments().getSerializable(EXTRA_CRIME_ID);
+            UUID crimeId = (UUID)getArguments().getSerializable(ARG_CRIME_ID);
             mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
         }
         setHasOptionsMenu(true);
@@ -84,7 +84,7 @@ public class CrimeFragment extends Fragment {
             }
         }
 
-        mTitleField = (EditText)v.findViewById(R.id.crime_title);
+        mTitleField = (EditText)v.findViewById(R.id.fcrime_title);
         mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence c, int start, int before, int count) {
@@ -101,8 +101,9 @@ public class CrimeFragment extends Fragment {
         mDateTimeButton = (Button)v.findViewById(R.id.crime_date_time);
         updateDateTime(); //calls mDateTimeButton.setText
         mDateTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentManager fm = getActivity().getSupportFragmentManager(); //ToDo: book uses regular getFragmentManager
                 DateTimeButtonsFragment dialog = DateTimeButtonsFragment.newInstance(mCrime.getDate());
                 dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 dialog.show(fm, DIALOG_DATE);
