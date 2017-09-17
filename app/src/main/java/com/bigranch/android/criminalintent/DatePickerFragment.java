@@ -16,7 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class DatePickerFragment extends DialogFragment{ //Todo: remove this: } implements DatePickerDialog.OnDateSetListener {
+public class DatePickerFragment extends DialogFragment{ //Todo: remove this: implements DatePickerDialog.OnDateSetListener {
     public static final String EXTRA_DATE = "com.bignerdranch.android.criminalintent.date";
     private static final String ARG_DATE = "date";
     private DatePicker mDatePicker;
@@ -68,19 +68,4 @@ public class DatePickerFragment extends DialogFragment{ //Todo: remove this: } i
         intent.putExtra(EXTRA_DATE, date);
         getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, intent);
     }
-
-    //Todo: remove this old code
-    /*@Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
-        if (view.isShown()) { //Unknown why OnDateSet gets called twice, but this only is true the first time
-            // Translate year, month, day into a Date object using a calendar
-            mDate = new GregorianCalendar(year, month, day).getTime();
-            // Update argument to preserve selected value on rotation
-            getArguments().putSerializable(EXTRA_DATE, mDate);
-
-            Intent i = new Intent();
-            i.putExtra(EXTRA_DATE, mDate);
-            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
-        }
-    }*/
 }
