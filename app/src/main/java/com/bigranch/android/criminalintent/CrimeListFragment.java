@@ -166,21 +166,10 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         getActivity().getMenuInflater().inflate(R.menu.crime_list_item_context, menu);
     }
-
-    /*@Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        Crime c = ((CrimeAdapter)getListAdapter()).getItem(position);
-
-        // Start CrimePagerActivity with this crime
-        Intent i = new Intent(getActivity(), CrimePagerActivity.class);
-        i.putExtra(CrimeFragment.EXTRA_CRIME_ID, c.getId());
-        startActivity(i);
-    }*/
 
     @Override
     public void onResume() {
@@ -196,6 +185,8 @@ public class CrimeListFragment extends Fragment {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
+            mCrimeRecyclerView.setAdapter(mAdapter); //ToDo: why did I have to add this to get the list to rebuild the view (to call OnCreateViewHolder) on screen rotation?
+            // ToDo: try removing the above workaround when chapter 14 adds: mAdapter.setCrimes(crimes);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -205,8 +196,8 @@ public class CrimeListFragment extends Fragment {
         private TextView mDateTextView;
         private Crime mCrime;
 
-        public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_crime, parent, false));
+        public CrimeHolder(LayoutInflater inflater, ViewGroup parent, int crimeItemLayout) {
+            super(inflater.inflate(crimeItemLayout, parent, false));
             itemView.setOnClickListener(this);
 
             mTitleTextView = (TextView)itemView.findViewById(R.id.crime_title);
@@ -232,6 +223,16 @@ public class CrimeListFragment extends Fragment {
 
         public CrimeAdapter(List<Crime> crimes) {
             mCrimes = crimes; //ToDo: remove this old code: super(getActivity(), 0, crimes);
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            Crime crime = mCrimes.get(position);
+            if (crime.requiresPolice()) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
 
         /*@Override
@@ -262,7 +263,11 @@ public class CrimeListFragment extends Fragment {
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new CrimeHolder(layoutInflater, parent);
+            if (viewType == 1) {
+                return new CrimeHolder(layoutInflater, parent, R.layout.list_item_badcrime);
+            } else {
+                return new CrimeHolder(layoutInflater, parent, R.layout.list_item_crime);
+            }
         }
 
         @Override

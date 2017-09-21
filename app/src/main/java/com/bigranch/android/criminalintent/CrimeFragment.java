@@ -40,10 +40,9 @@ public class CrimeFragment extends Fragment {
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateTimeButton;
+    private CheckBox mRequiresPoliceCheckBox;
     private CheckBox mSolvedCheckBox;
     private ImageButton mPhotoButton;
-
-    //private OnFragmentInteractionListener mListener;
 
     public CrimeFragment() {
         // Required empty public constructor
@@ -76,23 +75,27 @@ public class CrimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime, parent, false);
 
-        if (NavUtils.getParentActivityName(getActivity()) != null) { // if no parent, don't display carrot
+        //ToDo: remove if not needed
+        /*if (NavUtils.getParentActivityName(getActivity()) != null) { // if no parent, don't display carrot
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setIcon(R.mipmap.ic_launcher);//ToDo: why doesn't this work?
             }
-        }
+        }*/
 
         mTitleField = (EditText)v.findViewById(R.id.fcrime_title);
         mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
+            @Override
             public void onTextChanged(CharSequence c, int start, int before, int count) {
                 mCrime.setTitle(c.toString());
             }
+            @Override
             public void beforeTextChanged(CharSequence c, int start, int count, int after) {
                 // This space intentionally left blank
             }
+            @Override
             public void afterTextChanged(Editable c) {
                 // This one too
             }
@@ -107,6 +110,15 @@ public class CrimeFragment extends Fragment {
                 DateTimeButtonsFragment dialog = DateTimeButtonsFragment.newInstance(mCrime.getDate());
                 dialog.setTargetFragment(CrimeFragment.this, REQUEST_DATE);
                 dialog.show(fm, DIALOG_DATE);
+            }
+        });
+
+        mRequiresPoliceCheckBox = (CheckBox) v.findViewById(R.id.crime_requires_police);
+        mRequiresPoliceCheckBox.setChecked(mCrime.requiresPolice());
+        mRequiresPoliceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Set the crime's requires police property
+                mCrime.setRequiresPolice(isChecked);
             }
         });
 
@@ -141,7 +153,6 @@ public class CrimeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != AppCompatActivity.RESULT_OK) return;
         if (requestCode == REQUEST_DATE) {
-            //Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             Date date = (Date)data.getSerializableExtra(DateTimeButtonsFragment.EXTRA_DTB_DATE);
             mCrime.setDate(date);
             updateDateTime();

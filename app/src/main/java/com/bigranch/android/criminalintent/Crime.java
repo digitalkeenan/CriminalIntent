@@ -14,11 +14,13 @@ public class Crime {
     private static final String JSON_TITLE = "title";
     private static final String JSON_SOLVED = "solved";
     private static final String JSON_DATE = "date";
+    private static final String JSON_REQUIRES_POLICE = "requiresPolice";
 
     private UUID mId;
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private boolean mRequiresPolice;
 
     public Crime() {
         // Generate unique identifier
@@ -33,6 +35,7 @@ public class Crime {
         }
         mSolved = json.getBoolean(JSON_SOLVED);
         mDate = new Date(json.getLong(JSON_DATE));
+        mRequiresPolice = json.getBoolean(JSON_REQUIRES_POLICE);
     }
 
     public JSONObject toJSON() throws JSONException {
@@ -41,6 +44,7 @@ public class Crime {
         json.put(JSON_TITLE, mTitle);
         json.put(JSON_SOLVED, mSolved);
         json.put(JSON_DATE, mDate.getTime());
+        json.put(JSON_REQUIRES_POLICE, mRequiresPolice);
         return json;
     }
 
@@ -61,4 +65,8 @@ public class Crime {
     public boolean isSolved() { return mSolved; }
 
     public void setSolved(boolean solved) { mSolved = solved; }
+
+    public boolean requiresPolice() { return mRequiresPolice; }
+
+    public void setRequiresPolice(boolean doesRequirePolice) { mRequiresPolice = doesRequirePolice; }
 }
