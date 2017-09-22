@@ -26,6 +26,8 @@ public class Crime {
         // Generate unique identifier
         mId = UUID.randomUUID();
         mDate = new Date();
+        mSolved = false;
+        mRequiresPolice = false;
     }
 
     public Crime(JSONObject json) throws JSONException {

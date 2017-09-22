@@ -18,10 +18,12 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -194,7 +196,9 @@ public class CrimeListFragment extends Fragment {
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mTitleTextView;
         private TextView mDateTextView;
+        private ImageView mSolvedImageView;
         private Crime mCrime;
+        private boolean temp;
 
         public CrimeHolder(LayoutInflater inflater, ViewGroup parent, int crimeItemLayout) {
             super(inflater.inflate(crimeItemLayout, parent, false));
@@ -202,12 +206,18 @@ public class CrimeListFragment extends Fragment {
 
             mTitleTextView = (TextView)itemView.findViewById(R.id.crime_title);
             mDateTextView = (TextView)itemView.findViewById(R.id.crime_date);
+            mSolvedImageView = (ImageView)itemView.findViewById(R.id.crime_solved);
         }
 
         public void bind(Crime crime) {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate().toString());
+
+            //ToDo: can I get the user-specified data format from the system?
+            SimpleDateFormat mDateFormat = new SimpleDateFormat("E MMM dd, yyyy");
+            mDateTextView.setText(mDateFormat.format(mCrime.getDate()));
+
+            mSolvedImageView.setVisibility(mCrime.isSolved() ? View.VISIBLE : View.GONE);
         }
 
         @Override
