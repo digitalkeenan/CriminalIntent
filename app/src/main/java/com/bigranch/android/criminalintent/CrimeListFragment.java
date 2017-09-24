@@ -19,6 +19,7 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -31,10 +32,12 @@ import java.util.List;
  */
 public class CrimeListFragment extends Fragment {
 
+    private static final String SAVED_SUBTITLE_VISIBLE = "subtitle";
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
     private Button mEmptyListButton;
+    private TextView mEmptyListMessaage;
 
     public void newCrime() {
         Crime crime = new Crime();
@@ -60,11 +63,22 @@ public class CrimeListFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(SAVED_SUBTITLE_VISIBLE, mSubtitleVisible);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_crime_list, parent, false);
 
         mCrimeRecyclerView = (RecyclerView) v.findViewById(R.id.crime_recycler_view);
         mCrimeRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        if (savedInstanceState != null) {
+            mSubtitleVisible = savedInstanceState.getBoolean(SAVED_SUBTITLE_VISIBLE);
+        }
+
 
         /*if (mSubtitleVisible) {
             ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
@@ -73,12 +87,13 @@ public class CrimeListFragment extends Fragment {
             }
         }*/
 
-        /*mEmptyListButton = (Button)v.findViewById(R.id.empty_list_button);
+        mEmptyListButton = (Button)v.findViewById(R.id.empty_list_button);
         mEmptyListButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 newCrime();
             }
-        });*/
+        });
+        mEmptyListMessaage = (TextView)v.findViewById(R.id.empty_list_message);
 
         //ToDo: redo the delete-crime challenge another way (?toolbar instead of actionbar?)
         /*ListView listView = (ListView)v.findViewById(android.R.id.list);
@@ -135,6 +150,8 @@ public class CrimeListFragment extends Fragment {
         MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
         if (mSubtitleVisible && showSubtitle != null) {
             showSubtitle.setTitle(R.string.hide_subtitle);
+        } else {
+            showSubtitle.setTitle(R.string.show_subtitle);
         }
     }
 
@@ -145,7 +162,7 @@ public class CrimeListFragment extends Fragment {
                 newCrime();
                 return true;
             case R.id.menu_item_show_subtitle:
-                ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+                /*ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
                 if (actionBar != null) {
                     if (actionBar.getSubtitle() == null) {
                         actionBar.setSubtitle(R.string.subtitle);
@@ -161,7 +178,10 @@ public class CrimeListFragment extends Fragment {
                         mSubtitleVisible = false;
                     }
 
-                }
+                }*/
+                mSubtitleVisible = !mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();
+                updateSubtitle();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -179,9 +199,23 @@ public class CrimeListFragment extends Fragment {
         updateUI();
     }
 
+    private void updateSubtitle() {
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        int crimeCount = crimeLab.getCrimes().size();
+        String subtitle = getResources().getQuantityString(R.plurals.subtitle_plural, crimeCount, crimeCount);//getString(R.string.subtitle_format, crimeCount);
+
+        if (!mSubtitleVisible) {
+            subtitle = null;
+        }
+
+        AppCompatActivity activity = (AppCompatActivity)getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
+    }
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
+        //private TextView emptyTextView;// = (TextView)itemView.findViewById(R.id.empty_list_button);
 
         if (mAdapter == null) {
             mAdapter = new CrimeAdapter(crimes);
@@ -190,6 +224,16 @@ public class CrimeListFragment extends Fragment {
             mCrimeRecyclerView.setAdapter(mAdapter); //ToDo: why did I have to add this to get the list to rebuild the view (to call OnCreateViewHolder) on screen rotation?
             // ToDo: try removing the above workaround when chapter 14 adds: mAdapter.setCrimes(crimes);
             mAdapter.notifyDataSetChanged();
+        }
+
+        updateSubtitle();
+
+        if (crimes.size() > 0) {
+            mEmptyListButton.setVisibility(View.GONE);
+            mEmptyListMessaage.setVisibility(View.GONE);
+        } else {
+            mEmptyListButton.setVisibility(View.VISIBLE);
+            mEmptyListMessaage.setVisibility(View.VISIBLE);
         }
     }
 
@@ -244,31 +288,6 @@ public class CrimeListFragment extends Fragment {
                 return 0;
             }
         }
-
-        /*@Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // If we weren't given a view, inflate one
-            if (convertView == null) {
-                convertView = getActivity().getLayoutInflater().inflate(R.layout.list_item_crime, null);
-            }
-
-            // Configure the view for this Crime
-            Crime c = getItem(position);
-
-            //replaced this in CrimeHolder and changed ID to crime_title
-            //TextView titleTextView = (TextView)convertView.findViewById(R.id.crime_list_item_titleTextView);
-            //titleTextView.setText(c.getTitle());
-
-            //DateFormat mDateFormat = DateFormat.getDateInstance(DateFormat.FULL);
-            //replaced this in CrimeHolder and changed ID to crime_date
-            //TextView dateTextView = (TextView)convertView.findViewById(R.id.crime_list_item_dateTextView);
-            //dateTextView.setText(mDateFormat.format(c.getDate()));
-
-            CheckBox solvedCheckBox = (CheckBox)convertView.findViewById(R.id.crime_list_item_solvedCheckBox);
-            solvedCheckBox.setChecked(c.isSolved());
-
-            return convertView;
-        }*/
 
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -8,6 +8,10 @@
     <string name="hide_subtitle">_Hide Subtitle</string>
     <string name="subtitle_format">%1$d crimes</string>
     <string name="subtitle">If you see something, say something.</string>
+    <plurals name="subtitle_plural">
+        <item quantity="one">%1$d crime</item>
+        <item quantity="other">%1$d crimes</item>
+    </plurals>
 
     <string name="crime_title_hint">Enter a title for the crime.</string>
     <string name="crime_title_label">Title</string>
