@@ -60,11 +60,27 @@ public class CrimePagerActivity extends AppCompatActivity {
             }
         });
 
+        mViewPager.setCurrentItem(currentCrimeNum(crimeId));
+     }
+
+    public int currentCrimeNum(UUID crimeId) {
         for (int i = 0; i < mCrimes.size(); i++) {
             if (mCrimes.get(i).getId().equals(crimeId)) {
-                mViewPager.setCurrentItem(i);
-                break;
+                return i;
             }
         }
+        return 0; //ToDo: Error if get here
+    }
+
+    public Boolean currentCrimeIsLast(UUID crimeId) {
+        return (currentCrimeNum(crimeId) == mCrimes.size()-1);
+    }
+
+    public void gotoFirstPage(){
+        mViewPager.setCurrentItem(0);
+    }
+
+    public void gotoLastPage(){
+        mViewPager.setCurrentItem(mCrimes.size()-1);
     }
 }

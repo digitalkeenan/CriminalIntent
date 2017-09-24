@@ -43,6 +43,8 @@ public class CrimeFragment extends Fragment {
     private CheckBox mRequiresPoliceCheckBox;
     private CheckBox mSolvedCheckBox;
     private ImageButton mPhotoButton;
+    private Button mFirstCrimeButton;
+    private Button mLastCrimeButton;
 
     public CrimeFragment() {
         // Required empty public constructor
@@ -145,6 +147,32 @@ public class CrimeFragment extends Fragment {
         if (!hasACamera) {
             mPhotoButton.setEnabled(false);
         }
+
+        mFirstCrimeButton = (Button)v.findViewById(R.id.first_crime_button);
+        if (((CrimePagerActivity)getActivity()).currentCrimeNum(mCrime.getId()) == 0) {
+            mFirstCrimeButton.setVisibility(View.GONE);
+        } else {
+            mFirstCrimeButton.setVisibility(View.VISIBLE);
+        }
+        mFirstCrimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                ((CrimePagerActivity)getActivity()).gotoFirstPage();
+            }
+        });
+
+        mLastCrimeButton = (Button)v.findViewById(R.id.last_crime_button);
+        if (((CrimePagerActivity)getActivity()).currentCrimeIsLast(mCrime.getId())) {
+            mLastCrimeButton.setVisibility(View.GONE);
+        } else {
+            mLastCrimeButton.setVisibility(View.VISIBLE);
+        }
+        mLastCrimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                ((CrimePagerActivity)getActivity()).gotoLastPage();
+            }
+        });
 
         return v;
     }

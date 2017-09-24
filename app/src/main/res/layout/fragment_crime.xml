@@ -66,4 +66,16 @@
               android:layout_marginLeft="16dp"
               android:layout_marginRight="16dp"
               android:text="@string/crime_solved_label"/>
+
+    <Button
+        android:id="@+id/first_crime_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/first_crime_button_title"/>
+
+    <Button
+        android:id="@+id/last_crime_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/last_crime_button_title"/>
 </LinearLayout>

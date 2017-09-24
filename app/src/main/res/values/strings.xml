@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">CriminalIntent</string>
 
+    <string name="empty_list">There are no crime records</string>
+    <string name="add_first_crime">Create first crime record</string>
+    <string name="new_crime">New Crime</string>
+    <string name="show_subtitle">Show Subtitle</string>
+    <string name="hide_subtitle">_Hide Subtitle</string>
+    <string name="subtitle_format">%1$d crimes</string>
+    <string name="subtitle">If you see something, say something.</string>
+
     <string name="crime_title_hint">Enter a title for the crime.</string>
     <string name="crime_title_label">Title</string>
     <string name="crime_details_label">Details</string>
@@ -10,13 +18,8 @@
     <string name="date_picker_title">Date of crime:</string>
     <string name="time_picker_title">Time of crime:</string>
     <string name="date_time_buttons_title">Date and time of crime:</string>
-    <string name="new_crime">New Crime</string>
-    <string name="show_subtitle">Show Subtitle</string>
-    <string name="hide_subtitle">_Hide Subtitle</string>
-    <string name="subtitle_format">%1$d crimes</string>
-    <string name="subtitle">If you see something, say something.</string>
     <string name="delete_crime">Delete</string>
-    <string name="empty_list">There are no crime records</string>
-    <string name="add_first_crime">Create first crime record</string>
     <string name="take">Take!</string>
+    <string name="first_crime_button_title">&lt;&lt;</string>
+    <string name="last_crime_button_title">&gt;&gt;</string>
 </resources>
