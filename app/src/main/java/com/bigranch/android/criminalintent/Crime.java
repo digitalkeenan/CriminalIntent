@@ -23,10 +23,13 @@ public class Crime {
     private boolean mRequiresPolice;
 
     public Crime() {
-        // Generate unique identifier
-        mId = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public Crime(UUID id) {
+        mId = id;
         mDate = new Date();
-        mSolved = false;
+        mSolved = false; //ToDo: this is not in the book?
         mRequiresPolice = false;
     }
 

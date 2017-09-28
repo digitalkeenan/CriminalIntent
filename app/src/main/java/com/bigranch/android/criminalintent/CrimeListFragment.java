@@ -223,6 +223,7 @@ public class CrimeListFragment extends Fragment {
         } else {
             mCrimeRecyclerView.setAdapter(mAdapter); //ToDo: why did I have to add this to get the list to rebuild the view (to call OnCreateViewHolder) on screen rotation?
             // ToDo: try removing the above workaround when chapter 14 adds: mAdapter.setCrimes(crimes);
+            mAdapter.setCrimes(crimes);
             mAdapter.notifyDataSetChanged();
         }
 
@@ -308,6 +309,10 @@ public class CrimeListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mCrimes.size();
+        }
+
+        public void setCrimes(List<Crime> crimes) {
+            mCrimes = crimes;
         }
     }
 }
