@@ -4,11 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.bigranch.android.criminalintent.database.CrimeBaseHelper;
 import com.bigranch.android.criminalintent.database.CrimeCursorWrapper;
-import com.bigranch.android.criminalintent.database.CrimeDbSchema;
 import com.bigranch.android.criminalintent.database.CrimeDbSchema.CrimeTable;
 
 import java.util.ArrayList;
@@ -19,29 +17,15 @@ import java.util.UUID;
  * Created by obrien on 2/7/2016.
  */
 public class CrimeLab {
-    private static final String TAG = "CrimeLab";
-    private static final String FILENAME = "crimes.json";
 
     private Context mContext;
     private SQLiteDatabase mDatabase;
-    //private CriminalIntentJSONSerializer mSerializer;
     private static CrimeLab sCrimeLab;
-    //private Context mAppContext;
 
     private CrimeLab (Context context) {
         mContext = context.getApplicationContext();
         mDatabase = new CrimeBaseHelper(mContext).getWritableDatabase();
     }
-    /*private CrimeLab(Context appContext) {
-        mAppContext = appContext;
-        mSerializer = new CriminalIntentJSONSerializer(mAppContext, FILENAME);
-        try {
-            mCrimes = mSerializer.loadCrimes();
-        } catch (Exception e) {
-            mCrimes = new ArrayList<Crime>();
-            Log.e(TAG, "Error loading crimes: ", e);
-        }
-    }*/
 
     public static CrimeLab get(Context c) {
         if (sCrimeLab == null) {
@@ -58,19 +42,7 @@ public class CrimeLab {
     public void deleteCrime(Crime c) {
         String uuidString = c.getId().toString();
         mDatabase.delete(CrimeTable.NAME, CrimeTable.Cols.UUID + " = ?", new String[] { uuidString });
-        //this.saveCrimes(); // mainly done with onpause, but delete completes without user hitting back button
     }
-
-    /*public boolean saveCrimes() {
-        try {
-            /*mSerializer.saveCrimes(mCrimes);
-            Log.d(TAG, "crimes saved to file");
-            return true;
-        } catch (Exception e) {
-            Log.e(TAG, "Error saving crimes: ", e);
-            return false;
-        }
-    }*/
 
     public List<Crime> getCrimes() {
         List<Crime> crimes = new ArrayList<>();
@@ -117,7 +89,7 @@ public class CrimeLab {
                 whereArgs,
                 null, // groupBy
                 null, // having
-                null // orderBy
+                null  // orderBy
         );
         return new CrimeCursorWrapper(cursor);
     }
