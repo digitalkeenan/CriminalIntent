@@ -29,7 +29,7 @@ public class CrimeLab {
 
     public static CrimeLab get(Context c) {
         if (sCrimeLab == null) {
-            sCrimeLab = new CrimeLab(c);//.getApplicationContext());
+            sCrimeLab = new CrimeLab(c);
         }
         return sCrimeLab;
     }
@@ -101,6 +101,8 @@ public class CrimeLab {
         values.put(CrimeTable.Cols.DATE, crime.getDate().getTime());
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
         values.put(CrimeTable.Cols.REQUIRES_POLICE, crime.requiresPolice() ? 1 : 0);
+        values.put(CrimeTable.Cols.SUSPECT, crime.getSuspect());
+        values.put(CrimeTable.Cols.SUSPECT_ID, crime.getSuspectID());
         return values;
     }
 }
